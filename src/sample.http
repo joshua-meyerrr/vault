@@ -1,0 +1,21 @@
+### Get all credentials
+
+GET http://localhost:3000/api/credentials
+
+### Get single credential
+
+GET http://localhost:3000/api/credentials/MySpace
+
+### google test
+GET https://rickandmortyapi.com/api/character/87
+
+### Add single entry
+
+POST http://localhost:300/api/credentials
+Content-Type: application/json
+
+{
+  "service": "neuefischer",
+  "username": "jozrk",
+  "password": "password"
+}
