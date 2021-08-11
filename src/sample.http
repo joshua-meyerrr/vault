@@ -11,7 +11,7 @@ GET https://rickandmortyapi.com/api/character/87
 
 ### Add single entry
 
-POST http://localhost:300/api/credentials
+POST http://localhost:3000/api/credentials
 Content-Type: application/json
 
 {
@@ -19,3 +19,8 @@ Content-Type: application/json
   "username": "jozrk",
   "password": "password"
 }
+
+### Delete entry
+
+DELETE http://localhost:3000/api/credentials/neuefischer
+
