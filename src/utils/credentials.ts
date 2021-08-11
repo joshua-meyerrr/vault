@@ -22,9 +22,27 @@ export async function getCredential(service: string): Promise<Credential> {
 export async function addCredential(credential: Credential): Promise<void> {
   const credentials = await readCredentials();
   const updatedCredentials = [...credentials, credential];
+  updateDB(updatedCredentials);
+}
+
+export async function deleteCredential(service: string): Promise<void> {
+  const credentials = await readCredentials();
+  const updatedCredentials = credentials.filter(
+    (credential) => credential.service !== service
+  );
+
+  // if (updatedCredentials.length === credentials.length) {
+  //   throw new Error('hflskdfs');
+  // }
+  updateDB(updatedCredentials);
+}
+
+export async function updateDB(
+  updatedCredentials: Credential[]
+): Promise<void> {
   const database: DB = {
     credentials: [],
   };
   database.credentials = updatedCredentials;
-  await writeFile('src/db.json', JSON.stringify(database));
+  await writeFile('src/db.json', JSON.stringify(database, null, 2));
 }
