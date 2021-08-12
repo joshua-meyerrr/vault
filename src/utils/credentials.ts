@@ -37,6 +37,18 @@ export async function deleteCredential(service: string): Promise<void> {
   updateDB(updatedCredentials);
 }
 
+export async function updateCredential(
+  service: string,
+  credential: Credential
+): Promise<void> {
+  const credentials = await readCredentials();
+  const delCredential = credentials.filter(
+    (credential) => credential.service !== service
+  );
+  const updatedCredentials = [...delCredential, credential];
+  updateDB(updatedCredentials);
+}
+
 export async function updateDB(
   updatedCredentials: Credential[]
 ): Promise<void> {
