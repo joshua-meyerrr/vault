@@ -4,6 +4,11 @@
       "service": "Google",
       "username": "joshua",
       "password": "123456"
+    },
+    {
+      "service": "MySpace",
+      "username": "joshua",
+      "password": "123456"
     }
   ]
 }
