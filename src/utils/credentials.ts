@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import CryptoJS from 'crypto-js';
 import type { DB, Credential } from '../types';
-import { encryptCredential } from './crypto';
+import { decryptCredential, encryptCredential } from './crypto';
 
 export async function readCredentials(): Promise<Credential[]> {
   const response = await readFile('src/db.json', 'utf8');
@@ -18,7 +18,8 @@ export async function getCredential(service: string): Promise<Credential> {
   if (!serviceCredential) {
     throw new Error(`No credential found for service: ${service}`);
   }
-  return serviceCredential;
+  const decryptedCredential = decryptCredential(serviceCredential);
+  return decryptedCredential;
 }
 
 export async function addCredential(credential: Credential): Promise<void> {
@@ -45,17 +46,9 @@ export async function updateCredential(
   const delCredential = credentials.filter(
     (credential) => credential.service !== service
   );
+
   const updatedCredentials = [...delCredential, credential];
   updateDB(updatedCredentials);
-}
-
-export async function getPassword(service: string): Promise<void> {
-  const targetCredential = getCredential(service);
-  const decryptPassword = CryptoJS.TripleDES.decrypt(
-    (await targetCredential).password,
-    'lmao'
-  );
-  console.log(decryptPassword);
 }
 
 export async function updateDB(
