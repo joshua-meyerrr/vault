@@ -4,7 +4,7 @@ GET http://localhost:3000/api/credentials
 
 ### Get single credential
 
-GET http://localhost:3000/api/credentials/MySpace
+GET http://localhost:3000/api/credentials/neuefischer
 
 ### google test
 GET https://rickandmortyapi.com/api/character/87
