@@ -30,10 +30,6 @@ export async function deleteCredential(service: string): Promise<void> {
   const updatedCredentials = credentials.filter(
     (credential) => credential.service !== service
   );
-
-  // if (updatedCredentials.length === credentials.length) {
-  //   throw new Error('hflskdfs');
-  // }
   updateDB(updatedCredentials);
 }
 
