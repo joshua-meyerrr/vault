@@ -5,6 +5,8 @@ GET http://localhost:3000/api/credentials
 ### Get single credential
 
 GET http://localhost:3000/api/credentials/neuefischer
+Authorization: {{$dotenv MASTERPASSWORD}}
+
 
 ### google test
 GET https://rickandmortyapi.com/api/character/87
