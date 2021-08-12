@@ -24,3 +24,13 @@ Content-Type: application/json
 
 DELETE http://localhost:3000/api/credentials/neuefischer
 
+### Replace existing credential
+
+PUT http://localhost:3000/api/credentials/MySpace
+Content-Type: application/json
+
+{
+  "service": "StudiVZ",
+  "username": "jozrk",
+  "password": "password123"
+}
