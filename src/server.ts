@@ -11,6 +11,12 @@ import {
 import express from 'express';
 import type { Credential } from './types';
 import { validateMasterpassword } from './utils/validation';
+import { connectDatabase } from './utils/database';
+
+if (!process.env.MONGODB_URL) {
+  throw new Error('No MONGODB_URL dotenv variable');
+}
+
 const app = express();
 const port = 3000;
 app.use(express.json());
@@ -86,6 +92,8 @@ app.get('/', (_requests, response) => {
   response.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+connectDatabase(process.env.MONGODB_URL).then(() => {
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });
 });
