@@ -1,26 +1,28 @@
-import { readFile, writeFile } from 'fs/promises';
-import type { DB, Credential } from '../types';
+import type { Credential } from '../types';
 import { decryptCredential, encryptCredential } from './crypto';
+import {
+  createListing,
+  deleteListingByName,
+  findListingByName,
+  getAllListings,
+  updateListing,
+} from './database';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function readCredentials(): Promise<Credential[]> {
-  const response = await readFile('src/db.json', 'utf8');
-  const db: DB = JSON.parse(response);
-  return db.credentials;
+  return await getAllListings();
 }
 
 export async function getCredential(
   service: string,
   key: string
 ): Promise<Credential> {
-  const credentials = await readCredentials();
-  const serviceCredential = credentials.find(
-    (credential) => credential.service === service
-  );
-
-  if (!serviceCredential) {
-    throw new Error(`No credential found for service: ${service}`);
+  const credential = await findListingByName(service);
+  if (!credential) {
+    throw new Error(`There is no entry associated to ${service}`);
   }
-  const decryptedCredential = decryptCredential(serviceCredential, key);
+  const decryptedCredential = decryptCredential(credential, key);
   return decryptedCredential;
 }
 
@@ -28,40 +30,24 @@ export async function addCredential(
   credential: Credential,
   key: string
 ): Promise<void> {
-  const credentials = await readCredentials();
-  // encryption
-  const newCredential = [...credentials, encryptCredential(credential, key)];
+  const encryptedCredential = encryptCredential(credential, key);
 
-  updateDB(newCredential);
+  if (!process.env.MONGODB_URL) {
+    throw new Error('No MONGODB_URL dotenv variable');
+  }
+
+  await createListing(encryptedCredential);
 }
 
 export async function deleteCredential(service: string): Promise<void> {
-  const credentials = await readCredentials();
-  const updatedCredentials = credentials.filter(
-    (credential) => credential.service !== service
-  );
-  updateDB(updatedCredentials);
+  await deleteListingByName(service);
 }
 
 export async function updateCredential(
   service: string,
-  credential: Credential
+  credential: Credential,
+  key: string
 ): Promise<void> {
-  const credentials = await readCredentials();
-  const delCredential = credentials.filter(
-    (credential) => credential.service !== service
-  );
-
-  const updatedCredentials = [...delCredential, credential];
-  updateDB(updatedCredentials);
-}
-
-export async function updateDB(
-  updatedCredentials: Credential[]
-): Promise<void> {
-  const database: DB = {
-    credentials: [],
-  };
-  database.credentials = updatedCredentials;
-  await writeFile('src/db.json', JSON.stringify(database, null, 2));
+  const encryptedCredential = encryptCredential(credential, key);
+  await updateListing(service, encryptedCredential);
 }
