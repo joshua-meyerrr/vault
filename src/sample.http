@@ -15,6 +15,7 @@ GET https://rickandmortyapi.com/api/character/87
 
 POST http://localhost:3000/api/credentials
 Content-Type: application/json
+Authorization: {{$dotenv MASTERPASSWORD}}
 
 {
   "service": "neuefischer",
@@ -28,11 +29,11 @@ DELETE http://localhost:3000/api/credentials/neuefischer
 
 ### Replace existing credential
 
-PUT http://localhost:3000/api/credentials/MySpace
+PUT http://localhost:3000/api/credentials/neuefischer
 Content-Type: application/json
 
 {
-  "service": "StudiVZ",
+  "service": "MSN",
   "username": "jozrk",
   "password": "password123"
 }
