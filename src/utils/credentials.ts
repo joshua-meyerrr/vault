@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import type { DB, Credential } from '../types';
+import { decryptCredential, encryptCredential } from './crypto';
 
 export async function readCredentials(): Promise<Credential[]> {
   const response = await readFile('src/db.json', 'utf8');
@@ -7,7 +8,10 @@ export async function readCredentials(): Promise<Credential[]> {
   return db.credentials;
 }
 
-export async function getCredential(service: string): Promise<Credential> {
+export async function getCredential(
+  service: string,
+  key: string
+): Promise<Credential> {
   const credentials = await readCredentials();
   const serviceCredential = credentials.find(
     (credential) => credential.service === service
@@ -16,13 +20,19 @@ export async function getCredential(service: string): Promise<Credential> {
   if (!serviceCredential) {
     throw new Error(`No credential found for service: ${service}`);
   }
-  return serviceCredential;
+  const decryptedCredential = decryptCredential(serviceCredential, key);
+  return decryptedCredential;
 }
 
-export async function addCredential(credential: Credential): Promise<void> {
+export async function addCredential(
+  credential: Credential,
+  key: string
+): Promise<void> {
   const credentials = await readCredentials();
-  const updatedCredentials = [...credentials, credential];
-  updateDB(updatedCredentials);
+  // encryption
+  const newCredential = [...credentials, encryptCredential(credential, key)];
+
+  updateDB(newCredential);
 }
 
 export async function deleteCredential(service: string): Promise<void> {
@@ -30,10 +40,6 @@ export async function deleteCredential(service: string): Promise<void> {
   const updatedCredentials = credentials.filter(
     (credential) => credential.service !== service
   );
-
-  // if (updatedCredentials.length === credentials.length) {
-  //   throw new Error('hflskdfs');
-  // }
   updateDB(updatedCredentials);
 }
 
@@ -45,6 +51,7 @@ export async function updateCredential(
   const delCredential = credentials.filter(
     (credential) => credential.service !== service
   );
+
   const updatedCredentials = [...delCredential, credential];
   updateDB(updatedCredentials);
 }
