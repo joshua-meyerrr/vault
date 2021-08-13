@@ -7,10 +7,6 @@ GET http://localhost:3000/api/credentials
 GET http://localhost:3000/api/credentials/neuefischer
 Authorization: {{$dotenv MASTERPASSWORD}}
 
-
-### google test
-GET https://rickandmortyapi.com/api/character/87
-
 ### Add single entry
 
 POST http://localhost:3000/api/credentials
@@ -29,8 +25,9 @@ DELETE http://localhost:3000/api/credentials/neuefischer
 
 ### Replace existing credential
 
-PUT http://localhost:3000/api/credentials/neuefischer
+PUT http://localhost:3000/api/credentials/mongo
 Content-Type: application/json
+Authorization: {{$dotenv MASTERPASSWORD}}
 
 {
   "service": "MSN",
