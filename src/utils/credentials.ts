@@ -36,7 +36,7 @@ export async function addCredential(
   }
 
   const credentialCollection = getCredentialCollection();
-  credentialCollection.insertOne(encryptedCredential);
+  await credentialCollection.insertOne(encryptedCredential);
 }
 
 export async function deleteCredential(service: string): Promise<void> {
