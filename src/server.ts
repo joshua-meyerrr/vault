@@ -74,9 +74,17 @@ app.put('/api/credentials/:service', async (request, response) => {
   }
 });
 
-app.get('/api/credentials', async (_request, response) => {
+app.get('/api/credentials', async (request, response) => {
   try {
-    const credentials = await readCredentials();
+    const masterPassword = request.headers.authorization;
+    if (!masterPassword) {
+      response.status(400).send('Authorization header missing');
+      return;
+    } else if (!(await validateMasterpassword(masterPassword))) {
+      response.status(401).send('Unauthorized request');
+      return;
+    }
+    const credentials = await readCredentials(masterPassword);
     response.status(200).json(credentials);
   } catch (error) {
     console.error;

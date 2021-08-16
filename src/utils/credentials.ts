@@ -4,10 +4,13 @@ import { getCredentialCollection } from './database';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export async function readCredentials(): Promise<Credential[]> {
+export async function readCredentials(key: string): Promise<Credential[]> {
   const credentialCollection = getCredentialCollection();
   const collection = await credentialCollection.find({}).toArray();
-  return collection;
+  const decryptedCredential = collection.map((credential) =>
+    decryptCredential(credential, key)
+  );
+  return decryptedCredential;
 }
 
 export async function getCredential(
