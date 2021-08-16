@@ -1,15 +1,11 @@
 ### Get all credentials
 
 GET http://localhost:3000/api/credentials
-
+Authorization: {{$dotenv MASTERPASSWORD}}
 ### Get single credential
 
 GET http://localhost:3000/api/credentials/neuefischer
 Authorization: {{$dotenv MASTERPASSWORD}}
-
-
-### google test
-GET https://rickandmortyapi.com/api/character/87
 
 ### Add single entry
 
@@ -31,9 +27,10 @@ DELETE http://localhost:3000/api/credentials/neuefischer
 
 PUT http://localhost:3000/api/credentials/neuefischer
 Content-Type: application/json
+Authorization: {{$dotenv MASTERPASSWORD}}
 
 {
-  "service": "MSN",
-  "username": "jozrk",
+  "service": "neuefischer",
+  "username": "fsdafk",
   "password": "password123"
 }
