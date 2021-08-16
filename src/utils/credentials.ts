@@ -1,24 +1,23 @@
 import type { Credential } from '../types';
 import { decryptCredential, encryptCredential } from './crypto';
-import {
-  createListing,
-  deleteListingByName,
-  findListingByName,
-  getAllListings,
-  updateListing,
-} from './database';
+import { getCredentialCollection } from './database';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export async function readCredentials(): Promise<Credential[]> {
-  return await getAllListings();
+  const credentialCollection = getCredentialCollection();
+  const collection = await credentialCollection.find({}).toArray();
+  return collection;
 }
 
 export async function getCredential(
   service: string,
   key: string
 ): Promise<Credential> {
-  const credential = await findListingByName(service);
+  const credentialCollection = getCredentialCollection();
+  const credential = await credentialCollection.findOne({
+    service,
+  });
   if (!credential) {
     throw new Error(`There is no entry associated to ${service}`);
   }
@@ -36,11 +35,13 @@ export async function addCredential(
     throw new Error('No MONGODB_URL dotenv variable');
   }
 
-  await createListing(encryptedCredential);
+  const credentialCollection = getCredentialCollection();
+  credentialCollection.insertOne(encryptedCredential);
 }
 
 export async function deleteCredential(service: string): Promise<void> {
-  await deleteListingByName(service);
+  const credentialCollection = getCredentialCollection();
+  await credentialCollection.deleteOne({ service });
 }
 
 export async function updateCredential(
@@ -49,5 +50,6 @@ export async function updateCredential(
   key: string
 ): Promise<void> {
   const encryptedCredential = encryptCredential(credential, key);
-  await updateListing(service, encryptedCredential);
+  const credentialCollection = getCredentialCollection();
+  await credentialCollection.replaceOne({ service }, encryptedCredential);
 }

@@ -25,12 +25,12 @@ DELETE http://localhost:3000/api/credentials/neuefischer
 
 ### Replace existing credential
 
-PUT http://localhost:3000/api/credentials/mongo
+PUT http://localhost:3000/api/credentials/neuefischer
 Content-Type: application/json
 Authorization: {{$dotenv MASTERPASSWORD}}
 
 {
-  "service": "MSN",
-  "username": "jozrk",
+  "service": "neuefischer",
+  "username": "fsdafk",
   "password": "password123"
 }
