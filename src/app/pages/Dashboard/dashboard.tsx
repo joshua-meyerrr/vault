@@ -5,7 +5,11 @@ export default function Dashboard(): JSX.Element {
   return (
     <>
       <h1 className={styles.header}>Vault 🕋</h1>
-      <input className={styles.input} type="text" />
+      <input
+        className={styles.input}
+        type="text"
+        placeholder="Enter service..."
+      />
       <p className={styles.yourPasswords}>Your passwords:</p>
     </>
   );

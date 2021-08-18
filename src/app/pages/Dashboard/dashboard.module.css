@@ -1,0 +1,12 @@
+.header {
+  color: green;
+  text-align: center;
+}
+
+.input:focus {
+  outline-color: green;
+}
+
+.yourPasswords {
+  font-weight: 600;
+}
