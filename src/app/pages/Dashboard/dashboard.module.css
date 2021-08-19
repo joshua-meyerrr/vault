@@ -1,12 +1,20 @@
 .header {
-  color: green;
+  color: darkblue;
   text-align: center;
 }
 
 .input:focus {
-  outline-color: green;
+  outline-color: darkblue;
 }
 
 .yourPasswords {
   font-weight: 600;
+}
+
+.container {
+  display: grid;
+  align-content: start;
+  justify-content: center;
+  background: pink;
+  height: 100vh;
 }

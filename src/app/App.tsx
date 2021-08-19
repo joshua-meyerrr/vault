@@ -4,9 +4,9 @@ import Dashboard from './pages/Dashboard/dashboard';
 
 function App(): JSX.Element {
   return (
-    <div>
+    <>
       <Dashboard />
-    </div>
+    </>
   );
 }
 
