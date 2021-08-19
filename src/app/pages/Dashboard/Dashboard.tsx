@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './dashboard.module.css';
+import styles from './Dashboard.module.css';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard(): JSX.Element {
   return (
@@ -11,6 +12,9 @@ export default function Dashboard(): JSX.Element {
         placeholder="Enter service..."
       />
       <p className={styles.yourPasswords}>Your passwords:</p>
+      <Link className={styles.destruction} to="/selfdestruction">
+        Start Self-Destruction 💣
+      </Link>
     </main>
   );
 }

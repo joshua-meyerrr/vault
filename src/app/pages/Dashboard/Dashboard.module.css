@@ -18,3 +18,10 @@
   background: pink;
   height: 100vh;
 }
+
+.destruction {
+  padding-bottom: 1rem;
+  text-decoration: none;
+  color: darkblue;
+  font-weight: bold;
+}
