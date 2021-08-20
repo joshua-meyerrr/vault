@@ -26,11 +26,12 @@ export default function Dashboard(): JSX.Element {
 
   return (
     <main className={styles.container}>
-      <h1 className={styles.header}>Vault 🕋</h1>
+      <h1 className={styles.header}>Vault</h1>
       <Link className={styles.destruction} to="/selfdestruction">
-        Start Self-Destruction 💣
+        Self-Destruction 💣
       </Link>
       <form
+        className={styles.form}
         onSubmit={(event) => {
           event.preventDefault();
           fetchCredentials();
@@ -43,10 +44,8 @@ export default function Dashboard(): JSX.Element {
           value={masterPassword}
           onChange={(event) => setMasterPassword(event.target.value)}
         />
-        <button>🔓</button>
+        <button className={styles.btn}>🔓</button>
       </form>
-      <p className={styles.yourPasswords}>Your passwords:</p>
-      <Link to="/passwords/google">Test Link to Google PW</Link>
       {credentials.map((credential) => (
         <CredentialCard credential={credential} />
       ))}
