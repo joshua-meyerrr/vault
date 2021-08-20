@@ -3,10 +3,12 @@ import styles from './Dashboard.module.css';
 import { Link } from 'react-router-dom';
 import type { Credential } from '../../../types';
 import CredentialCard from '../../components/CredentialCard/CredentialCard';
+import AddButton from '../../components/AddButton/AddButton';
 
 export default function Dashboard(): JSX.Element {
   const [credentials, setCredentials] = useState<Credential[]>([]);
   const [masterPassword, setMasterPassword] = useState('');
+  const [displayButton, setDisplayButton] = useState(false);
 
   async function fetchCredentials() {
     const response = await fetch('/api/credentials', {
@@ -16,6 +18,9 @@ export default function Dashboard(): JSX.Element {
     });
     const credentials = await response.json();
     setCredentials(credentials);
+    if (credentials.length > 0) {
+      setDisplayButton(!displayButton);
+    }
   }
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export default function Dashboard(): JSX.Element {
       {credentials.map((credential) => (
         <CredentialCard credential={credential} />
       ))}
+      <AddButton status={displayButton} />
     </main>
   );
 }
