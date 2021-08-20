@@ -5,34 +5,54 @@ import type { Credential } from '../../../types';
 
 export default function Dashboard(): JSX.Element {
   const [credentials, setCredentials] = useState<Credential[]>([]);
+  const [masterPassword, setMasterPassword] = useState('');
+
+  async function fetchCredentials() {
+    const response = await fetch('/api/credentials', {
+      headers: {
+        Authorization: masterPassword,
+      },
+    });
+    const credentials = await response.json();
+    setCredentials(credentials);
+  }
 
   useEffect(() => {
-    async function fetchCredentials() {
-      const response = await fetch('/api/credentials', {
-        headers: {
-          Authorization: 'lmao',
-        },
-      });
-      const credentials = await response.json();
-      setCredentials(credentials);
+    if (!masterPassword) {
+      setCredentials([]);
     }
-    fetchCredentials();
-  }, []);
+  }, [masterPassword]);
 
   return (
     <main className={styles.container}>
       <h1 className={styles.header}>Vault 🕋</h1>
-      <input
-        className={styles.input}
-        type="text"
-        placeholder="Enter service..."
-      />
-      <p className={styles.yourPasswords}>Your passwords:</p>
       <Link className={styles.destruction} to="/selfdestruction">
         Start Self-Destruction 💣
       </Link>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          fetchCredentials();
+        }}
+      >
+        <input
+          className={styles.input}
+          type="password"
+          placeholder="Enter masterpassword..."
+          value={masterPassword}
+          onChange={(event) => setMasterPassword(event.target.value)}
+        />
+        <button>🔓</button>
+      </form>
+      <p className={styles.yourPasswords}>Your passwords:</p>
       <Link to="/passwords/google">Test Link to Google PW</Link>
-      {credentials?.forEach((credential) => console.log(credential))}
+      {credentials.map((credential) => (
+        <div>
+          <p>{credential.service}</p>
+          <p>{credential.username}</p>
+          <p>{credential.password}</p>
+        </div>
+      ))}
     </main>
   );
 }
