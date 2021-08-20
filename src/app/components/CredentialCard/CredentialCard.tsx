@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Credential } from '../../../types';
 import styles from './CredentialCard.module.css';
 
@@ -9,20 +9,22 @@ type CredentialProps = {
 export default function CredentialCard({
   credential,
 }: CredentialProps): JSX.Element {
+  const [isHidden, setIsHidden] = useState(true);
   return (
     <div className={styles.frame}>
       <p className={styles.service}>{credential.service}</p>
       <p className={styles.username}>{credential.username}</p>
       <div className={styles.password}>
-        <p className={styles.password__text} id="pw">
+        <p
+          className={`${styles.password__text} ${
+            isHidden ? styles.hidden : ''
+          }`}
+        >
           {credential.password}
         </p>
         <button
           className={styles.password__btn}
-          onClick={(event) => {
-            const passWord = document.querySelector('#pw');
-            passWord?.classList.toggle(styles.hidden);
-          }}
+          onClick={() => setIsHidden(!isHidden)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
