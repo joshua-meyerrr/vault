@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Dashboard.module.css';
 import { Link } from 'react-router-dom';
 import type { Credential } from '../../../types';
+import CredentialCard from '../../components/CredentialCard/CredentialCard';
 
 export default function Dashboard(): JSX.Element {
   const [credentials, setCredentials] = useState<Credential[]>([]);
@@ -47,11 +48,7 @@ export default function Dashboard(): JSX.Element {
       <p className={styles.yourPasswords}>Your passwords:</p>
       <Link to="/passwords/google">Test Link to Google PW</Link>
       {credentials.map((credential) => (
-        <div>
-          <p>{credential.service}</p>
-          <p>{credential.username}</p>
-          <p>{credential.password}</p>
-        </div>
+        <CredentialCard credential={credential} />
       ))}
     </main>
   );
