@@ -66,6 +66,7 @@ export default function Dashboard(): JSX.Element {
       <Link to="/search">Search Service</Link>
       {credentials.map((credential) => (
         <CredentialCard
+          key={credential._id}
           credential={credential}
           onDeleteClick={handleDeleteClick}
         />
