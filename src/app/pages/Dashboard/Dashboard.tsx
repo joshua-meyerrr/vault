@@ -51,6 +51,7 @@ export default function Dashboard(): JSX.Element {
         />
         <button className={styles.btn}>🔓</button>
       </form>
+      <Link to="/search">Search Service</Link>
       {credentials.map((credential) => (
         <CredentialCard credential={credential} />
       ))}
