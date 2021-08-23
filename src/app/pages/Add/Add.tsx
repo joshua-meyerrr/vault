@@ -9,7 +9,8 @@ export default function Add(): JSX.Element {
   const [masterPasswordValue, setMasterPasswordValue] = useState('');
   const history = useHistory();
 
-  async function handleSubmit() {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     const newEntry = {
       service: serviceValue,
       username: usernameValue,
@@ -34,8 +35,7 @@ export default function Add(): JSX.Element {
       <form
         className={styles.form}
         onSubmit={(event) => {
-          event.preventDefault();
-          handleSubmit();
+          handleSubmit(event);
         }}
       >
         <label className={styles.form__heading}>
