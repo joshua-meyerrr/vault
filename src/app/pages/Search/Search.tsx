@@ -3,6 +3,7 @@ import styles from './Search.module.css';
 import type { Credential } from '../../../types';
 import CredentialCard from '../../components/CredentialCard/CredentialCard';
 import { Link } from 'react-router-dom';
+import { deleteCredential } from '../../../utils/api';
 
 export default function Search(): JSX.Element {
   const [service, setService] = useState<string>('');
@@ -25,12 +26,21 @@ export default function Search(): JSX.Element {
     setCredential(credential);
   }
 
+  async function handleDeleteClick(service: string) {
+    await deleteCredential(service, masterPassword);
+    setCredential(null);
+    setIsError(false);
+  }
+
   return (
     <main className={styles.container}>
       <h1 className={styles.header}>Vault</h1>
       {credential ? (
         <>
-          <CredentialCard credential={credential} />
+          <CredentialCard
+            credential={credential}
+            onDeleteClick={handleDeleteClick}
+          />
           <Link to="/">Back to Dashboard</Link>
         </>
       ) : (
@@ -51,6 +61,7 @@ export default function Search(): JSX.Element {
         </form>
       )}
       {isError && <p className={styles.error}>Something went wrong!</p>}
+      <Link to="/">Return to Dashboard</Link>
     </main>
   );
 }

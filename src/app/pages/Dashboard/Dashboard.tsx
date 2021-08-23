@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import type { Credential } from '../../../types';
 import CredentialCard from '../../components/CredentialCard/CredentialCard';
 import AddButton from '../../components/AddButton/AddButton';
+import { deleteCredential } from '../../../utils/api';
 
 export default function Dashboard(): JSX.Element {
   const [credentials, setCredentials] = useState<Credential[]>([]);
@@ -19,8 +20,13 @@ export default function Dashboard(): JSX.Element {
     const credentials = await response.json();
     setCredentials(credentials);
     if (credentials.length > 0) {
-      setDisplayButton(!displayButton);
+      setDisplayButton(true);
     }
+  }
+
+  async function handleDeleteClick(service: string) {
+    await deleteCredential(service, masterPassword);
+    await fetchCredentials();
   }
 
   useEffect(() => {
@@ -53,7 +59,11 @@ export default function Dashboard(): JSX.Element {
       </form>
       <Link to="/search">Search Service</Link>
       {credentials.map((credential) => (
-        <CredentialCard credential={credential} />
+        <CredentialCard
+          key={credential._id}
+          credential={credential}
+          onDeleteClick={handleDeleteClick}
+        />
       ))}
       <Link to="/credential/add">
         <AddButton status={displayButton} />
