@@ -19,14 +19,14 @@ export default function Dashboard(): JSX.Element {
     const credentials = await response.json();
     setCredentials(credentials);
     if (credentials.length > 0) {
-      setDisplayButton(!displayButton);
+      setDisplayButton(true);
     }
   }
 
   async function deleteCredential(service: string, masterPassword: string) {
     await fetch(`/api/credentials/${service}`, {
       method: 'DELETE',
-      headers: { Authentication: masterPassword },
+      headers: { Authorization: masterPassword },
     });
   }
 
