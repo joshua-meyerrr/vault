@@ -4,10 +4,12 @@ import styles from './CredentialCard.module.css';
 
 type CredentialProps = {
   credential: Credential;
+  onDeleteClick: (service: string) => void;
 };
 
 export default function CredentialCard({
   credential,
+  onDeleteClick,
 }: CredentialProps): JSX.Element {
   const [isHidden, setIsHidden] = useState(true);
   return (
@@ -39,6 +41,7 @@ export default function CredentialCard({
           </svg>
         </button>
       </div>
+      <button onClick={() => onDeleteClick(credential.service)}>Delete</button>
     </div>
   );
 }

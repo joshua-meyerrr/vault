@@ -23,6 +23,18 @@ export default function Dashboard(): JSX.Element {
     }
   }
 
+  async function deleteCredential(service: string, masterPassword: string) {
+    await fetch(`/api/credentials/${service}`, {
+      method: 'DELETE',
+      headers: { Authentication: masterPassword },
+    });
+  }
+
+  async function handleDeleteClick(service: string) {
+    await deleteCredential(service, masterPassword);
+    await fetchCredentials();
+  }
+
   useEffect(() => {
     if (!masterPassword) {
       setCredentials([]);
@@ -53,7 +65,10 @@ export default function Dashboard(): JSX.Element {
       </form>
       <Link to="/search">Search Service</Link>
       {credentials.map((credential) => (
-        <CredentialCard credential={credential} />
+        <CredentialCard
+          credential={credential}
+          onDeleteClick={handleDeleteClick}
+        />
       ))}
       <Link to="/credential/add">
         <AddButton status={displayButton} />
