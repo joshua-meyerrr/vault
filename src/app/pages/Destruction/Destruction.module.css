@@ -1,0 +1,7 @@
+.container {
+  display: grid;
+  align-content: start;
+  justify-content: center;
+  background: pink;
+  height: 100vh;
+}
