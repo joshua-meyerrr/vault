@@ -1,0 +1,17 @@
+.container {
+  display: grid;
+  background: #f0e2c9;
+  justify-items: center;
+  align-content: start;
+  height: 100vh;
+}
+
+.header {
+  color: black;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
