@@ -44,11 +44,13 @@ export default function Add(): JSX.Element {
             type="text"
             value={serviceValue}
             onChange={(event) => setServiceValue(event.target.value)}
+            className={styles.input}
           />
         </label>
         <label className={styles.form__heading}>
           Username:
           <input
+            className={styles.input}
             type="text"
             value={usernameValue}
             onChange={(event) => setUsernameValue(event.target.value)}
@@ -58,6 +60,7 @@ export default function Add(): JSX.Element {
           Password:
           <input
             type="password"
+            className={styles.input}
             value={passwordValue}
             onChange={(event) => setPasswordValue(event.target.value)}
           />
@@ -66,6 +69,7 @@ export default function Add(): JSX.Element {
           Masterpassword:
           <input
             type="password"
+            className={styles.input}
             value={masterPasswordValue}
             onChange={(event) => setMasterPasswordValue(event.target.value)}
           />
