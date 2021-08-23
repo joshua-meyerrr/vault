@@ -54,7 +54,7 @@ export default function Dashboard(): JSX.Element {
       {credentials.map((credential) => (
         <CredentialCard credential={credential} />
       ))}
-      <Link to="/add">
+      <Link to="/credential/add">
         <AddButton status={displayButton} />
       </Link>
     </main>

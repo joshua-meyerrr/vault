@@ -15,7 +15,7 @@ function App(): JSX.Element {
         <Route path="/selfdestruction">
           <Destruction />
         </Route>
-        <Route path="/add">
+        <Route path="/credential/add">
           <Add />
         </Route>
         <Route path="/passwords/:service">
